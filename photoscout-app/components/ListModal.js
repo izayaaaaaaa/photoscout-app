@@ -1,10 +1,36 @@
-import React, { useContext } from 'react';
-import { Modal, StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Modal, StyleSheet, View, Text, FlatList, TouchableOpacity, Button } from 'react-native';
 
 import { CoordinatesContext } from '../Context';
+import { deleteAllCustomMarkers } from '../api/deleteAllCustomMarkers';
+import { fetchCustomLocations } from '../api/fetchCustomLocations';
 
 const ListModal = ({ isVisible, onClose, title }) => {
-  const { defaultLocations, customLocations } = useContext(CoordinatesContext);
+  const { defaultLocations, customLocations, setCustomLocations } = useContext(CoordinatesContext);
+  const [isDelete, setIsDelete] = useState(false);
+
+  const deleteAllMarkers = async () => {
+    console.log('Delete all markers');
+
+    try {
+      await deleteAllCustomMarkers();
+      console.log('All custom markers deleted successfully');
+      setIsDelete(true);
+    } catch (error) {
+      console.error('Failed to delete all custom markers:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchCustomLocations()
+      .then(data => {
+        console.log('Parsed custom markers:', data);
+        setCustomLocations(data);
+      })
+      .catch(error => {
+        console.error('Error fetching custom markers:', error);
+      });
+  }, [isVisible, isDelete]);
   
   return (
     <Modal
@@ -32,6 +58,8 @@ const ListModal = ({ isVisible, onClose, title }) => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => <Text>{item.name}</Text>}
           />
+
+          <Button onPress={deleteAllMarkers} title="Delete All" />
         </View>
       </TouchableOpacity>
     </Modal>
