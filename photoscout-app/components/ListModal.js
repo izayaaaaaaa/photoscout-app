@@ -10,11 +10,8 @@ const ListModal = ({ isVisible, onClose, title }) => {
   const { customLocations, refreshCustomLocations } = useContext(CustomLocationsContext);
 
   const deleteAllMarkers = async () => {
-    console.log('Delete all markers');
-
     try {
       await deleteAllCustomMarkers();
-      console.log('All custom markers deleted successfully');
       refreshCustomLocations();
     } catch (error) {
       console.error('Failed to delete all custom markers:', error);
@@ -39,21 +36,28 @@ const ListModal = ({ isVisible, onClose, title }) => {
           onPress={onClose}
         />
         <View style={styles.modalView}>
-          <Text>Locations:</Text>
-          
+          <Text style={styles.listTitle}>Locations:</Text>
           <FlatList
             data={defaultLocations}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => <Text>{item.name}</Text>}
           />
-
-          <FlatList
-            data={customLocations}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => <Text>{item.name}</Text>}
-          />
-
-          <Button onPress={deleteAllMarkers} title="Delete All" />
+  
+          {customLocations && customLocations.length > 0 && (
+            <>
+              <View style={styles.separator} />
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.listTitle}>Custom Locations:</Text>
+                <Button onPress={deleteAllMarkers} title="Delete All" />
+              </View>
+              
+              <FlatList
+                data={customLocations}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => <Text>{item.name}</Text>}
+              />
+            </>
+          )}
         </View>
       </View>
     </Modal>
@@ -87,6 +91,17 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5
   },
+  listTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  separator: {
+    height:  1,
+    backgroundColor: '#CED0CE', // You can choose any color you like
+    marginVertical:  10, // Adjust the margin as needed
+  },
+  
 });
 
 export default ListModal;

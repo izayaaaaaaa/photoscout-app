@@ -19,11 +19,10 @@ const AddMarkerModal = ({ isVisible, onClose, title }) => {
         lng: searchCoordinates.longitude,
       };
 
-      console.log('New marker:', newMarker);
-
       await addNewMarker(newMarker);
       setSearchCoordinates({ latitude: 0, longitude: 0 })
       refreshCustomLocations();
+      onClose();
     } catch (error) {
       console.error('Error adding new marker:', error);
     }  

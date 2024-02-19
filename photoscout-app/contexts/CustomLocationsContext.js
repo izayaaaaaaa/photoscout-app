@@ -8,7 +8,7 @@ export const CustomLocationsProvider = ({ children }) => {
 
   const refreshCustomLocations = async () => {
     try {
-      console.log('Refreshing custom locations...');
+      console.log('Fetching custom locations...');
       const locations = await fetchCustomLocations();
       setCustomLocations(locations);
     } catch (error) {

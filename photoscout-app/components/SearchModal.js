@@ -10,7 +10,6 @@ const SearchModal = ({ isVisible, onClose, title }) => {
   
   const onSearch = async () => {
     try {
-      setLocation(currentLocation);
       const data = await fetchLocation(currentLocation);
       if (data.length >  0) {
         const firstResult = data[0];
@@ -30,8 +29,8 @@ const SearchModal = ({ isVisible, onClose, title }) => {
 
         Keyboard.dismiss();
         setLocation(currentLocation);
-        setCurrentLocation('');
-        setSearchActive(true);
+        setCurrentLocation(''); // clear the search input
+        setSearchActive(true); // render the search marker
         onClose();
       } else {
         console.error('No location found');
