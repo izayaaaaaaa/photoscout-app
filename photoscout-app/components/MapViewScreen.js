@@ -4,9 +4,10 @@ import { StyleSheet, View } from 'react-native';
 
 import { CoordinatesContext } from '../CoordinatesContext';
 import { fetchDefaultLocations } from '../api/fetchDefaultLocations';
+import { fetchCustomLocations } from '../api/fetchCustomLocations';
 
 const MapViewScreen = () => {
-  const { defaultLocations, setDefaultLocations, coordinates, isSearchActive } = useContext(CoordinatesContext);
+  const { defaultLocations, setDefaultLocations, customLocations, setCustomLocations, coordinates, isSearchActive } = useContext(CoordinatesContext);
 
   useEffect(() => {
     console.log('Fetching markers data...');
@@ -17,6 +18,15 @@ const MapViewScreen = () => {
       })
       .catch(error => {
         console.error('Error fetching markers:', error);
+      });
+
+    fetchCustomLocations()
+      .then(data => {
+        console.log('Parsed custom markers:', data);
+        setCustomLocations(data);
+      })
+      .catch(error => {
+        console.error('Error fetching custom markers:', error);
       });
   }, []);
 
@@ -31,11 +41,20 @@ const MapViewScreen = () => {
           longitudeDelta: 0.14118041843175888,
         }}
       >
-        {defaultLocations.length > 0 && defaultLocations.map((marker, index) => (
+        {defaultLocations && defaultLocations.length > 0 && defaultLocations.map((marker, index) => (
           <Marker
             key={index}
             coordinate={{ latitude: marker.lat, longitude: marker.lng }}
             title={marker.name}
+          />
+        ))}
+
+        {customLocations && customLocations.length > 0 && customLocations.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={{ latitude: marker.lat, longitude: marker.lng }}
+            title={marker.name}
+            pinColor="blue"
           />
         ))}
 

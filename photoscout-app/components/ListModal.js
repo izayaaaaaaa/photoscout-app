@@ -2,17 +2,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Modal, StyleSheet, View, Text, Button, FlatList } from 'react-native';
 
 import { CoordinatesContext } from '../CoordinatesContext';
-import { fetchCustomLocations } from '../api/fetchCustomLocations';
 
 const ListModal = ({ isVisible, onClose, title }) => {
-  const { defaultLocations } = useContext(CoordinatesContext);
-  const [customLocations, setCustomLocations] = useState([]);
-  
-  useEffect(() => {
-    if (isVisible) {
-      fetchCustomLocations().then(setCustomLocations);
-    }
-  }, [isVisible]);
+  const { defaultLocations, customLocations } = useContext(CoordinatesContext);
+
 
   return (
     <Modal
