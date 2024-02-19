@@ -5,8 +5,7 @@ import { CoordinatesContext } from '../CoordinatesContext';
 import { fetchLocation } from '../api/fetchLocation';
 
 const SearchModal = ({ isVisible, onClose, title }) => {
-  const { coordinates, setCoordinates, isSearchActive, setSearchActive } = useContext(CoordinatesContext);
-  const [location, setLocation] = useState('');
+  const { location, setLocation, coordinates, setCoordinates, isSearchActive, setSearchActive } = useContext(CoordinatesContext);
   
   const onSearch = () => {
     console.log('location value for searching: ', location);

@@ -1,8 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, StyleSheet, View, Text, Button, TextInput } from 'react-native';
 
+import { CoordinatesContext } from '../CoordinatesContext';
+import { addNewMarker } from '../api/addNewMarker';
+
+
 const AddMarkerModal = ({ isVisible, onClose, title }) => {
+  const { coordinates, location } = useContext(CoordinatesContext);
   const [markerName, setMarkerName] = useState('');
+  
+  const AddMarker = () => {
+    console.log('AddMarkerModal coordinates:', coordinates);
+    console.log('AddMarkerModal location:', location);
+    console.log('AddMarkerModal markerName:', markerName);
+
+    const newMarker = {
+      name: markerName,
+      lat: coordinates.latitude,
+      lng: coordinates.longitude,
+    };
+    console.log('New marker:', newMarker);
+
+    addNewMarker(newMarker);
+  };
 
   return (
     <Modal
@@ -12,12 +32,18 @@ const AddMarkerModal = ({ isVisible, onClose, title }) => {
       onRequestClose={onClose}
     >
       <View style={styles.modalView}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setMarkerName}
-          value={markerName}
-          placeholder='Set marker name here...'
-        />
+        <Text>Location: {location}</Text>
+        <Text>Latitude: {coordinates.latitude}</Text>
+        <Text>Longitude: {coordinates.longitude}</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <TextInput
+            style={styles.input}
+            onChangeText={setMarkerName}
+            value={markerName}
+            placeholder='Set marker name here...'
+          />
+          <Button onPress={AddMarker} title="Add Marker" />
+        </View>
         <Button onPress={onClose} title="Close" />
       </View>
     </Modal>

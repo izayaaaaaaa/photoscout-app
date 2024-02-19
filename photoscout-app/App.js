@@ -6,6 +6,7 @@ import MapViewScreen from './components/MapViewScreen';
 import ModalComponent from './components/ModalComponent';
 import SearchModal from './components/SearchModal';
 import AddMarkerModal from './components/AddMarkerModal';
+import ListModal from './components/ListModal';
 
 export default function App() {
   const [isSearchVisible, setSearchVisible] = useState(false);
@@ -36,13 +37,11 @@ export default function App() {
           onClose={() => setAddVisible(false)} 
           title="Add"
         />
-        <ModalComponent 
+        <ListModal 
           isVisible={isListVisible} 
           onClose={() => setListVisible(false)} 
           title="List"
-        >
-          <Text>List all location markers function</Text>
-        </ModalComponent>
+        />
         <ModalComponent 
           isVisible={isSettingsVisible} 
           onClose={() => setSettingsVisible(false)} 

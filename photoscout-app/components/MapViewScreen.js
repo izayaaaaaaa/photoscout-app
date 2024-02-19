@@ -6,10 +6,7 @@ import { CoordinatesContext } from '../CoordinatesContext';
 import { fetchDefaultLocations } from '../api/fetchDefaultLocations';
 
 const MapViewScreen = () => {
-  const { coordinates, isSearchActive } = useContext(CoordinatesContext);
-  console.log('MapViewScreen Coordinates:', coordinates);
-  console.log('MapViewScreen isSearchActive:', isSearchActive)
-  const [defaultLocations, setDefaultLocations] = useState([]);
+  const { defaultLocations, setDefaultLocations, coordinates, isSearchActive } = useContext(CoordinatesContext);
 
   useEffect(() => {
     console.log('Fetching markers data...');
@@ -23,15 +20,6 @@ const MapViewScreen = () => {
       });
   }, []);
 
-  // re-render the map when the coordinates change
-  useEffect(() => {
-    console.log('Coordinates changed:', coordinates);
-  }, [coordinates]);
-
-  const logCurrentLocation = (current) => {
-    // console.log('Current location:', current);
-  }
-
   return (
     <View style={styles.container}>
       <MapView 
@@ -42,7 +30,6 @@ const MapViewScreen = () => {
           longitude: 151.2436400167644,
           longitudeDelta: 0.14118041843175888,
         }}
-        onRegionChange={logCurrentLocation}
       >
         {defaultLocations.length > 0 && defaultLocations.map((marker, index) => (
           <Marker
