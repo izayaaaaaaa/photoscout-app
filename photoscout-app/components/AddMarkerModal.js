@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Modal, StyleSheet, View, Text, Button, TextInput } from 'react-native';
+import { Modal, StyleSheet, View, Text, Button, TextInput, TouchableOpacity } from 'react-native';
 
 import { CoordinatesContext } from '../CoordinatesContext';
 import { addNewMarker } from '../api/addNewMarker';
@@ -10,10 +10,6 @@ const AddMarkerModal = ({ isVisible, onClose, title }) => {
   const [markerName, setMarkerName] = useState('');
   
   const AddMarker = () => {
-    console.log('AddMarkerModal coordinates:', coordinates);
-    console.log('AddMarkerModal location:', location);
-    console.log('AddMarkerModal markerName:', markerName);
-
     const newMarker = {
       name: markerName,
       lat: coordinates.latitude,
@@ -31,26 +27,33 @@ const AddMarkerModal = ({ isVisible, onClose, title }) => {
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <View style={styles.modalView}>
-        <Text>Location: {location}</Text>
-        <Text>Latitude: {coordinates.latitude}</Text>
-        <Text>Longitude: {coordinates.longitude}</Text>
-        <View style={{ flexDirection: 'row' }}>
-          <TextInput
-            style={styles.input}
-            onChangeText={setMarkerName}
-            value={markerName}
-            placeholder='Set marker name here...'
-          />
-          <Button onPress={AddMarker} title="Add Marker" />
+      <TouchableOpacity
+        style={styles.overlay}
+        activeOpacity={1}
+        onPress={onClose}
+      >
+        <View style={styles.modalView}>
+          <Text>Current Location: {location}</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <TextInput
+              style={styles.input}
+              onChangeText={setMarkerName}
+              value={markerName}
+              placeholder='Set marker name here...'
+            />
+            <Button onPress={AddMarker} title="Add Marker" />
+          </View>
         </View>
-        <Button onPress={onClose} title="Close" />
-      </View>
+      </TouchableOpacity>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
   modalView: {
     margin: 20,
     backgroundColor: "white",

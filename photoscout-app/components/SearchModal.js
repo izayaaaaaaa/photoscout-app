@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Modal, StyleSheet, View, Text, TextInput, Button } from 'react-native';
+import { Modal, StyleSheet, View, TextInput, Button, TouchableOpacity } from 'react-native';
 
 import { CoordinatesContext } from '../CoordinatesContext';
 import { fetchLocation } from '../api/fetchLocation';
@@ -8,7 +8,6 @@ const SearchModal = ({ isVisible, onClose, title }) => {
   const { location, setLocation, coordinates, setCoordinates, isSearchActive, setSearchActive } = useContext(CoordinatesContext);
   
   const onSearch = () => {
-    console.log('location value for searching: ', location);
     fetchLocation(location)
       .then(data => {
         console.log('Parsed location:');
@@ -19,21 +18,16 @@ const SearchModal = ({ isVisible, onClose, title }) => {
           const latitudeFloat = parseFloat(firstResult.lat);
           const longitudeFloat = parseFloat(firstResult.lon);
 
-          console.log('searchmodal coordinates: ', coordinates);
-
           setCoordinates({
             latitude: latitudeFloat,
             longitude: longitudeFloat
           });
-
-          console.log('searchmodal setSearchActive value: ', isSearchActive);
 
           setSearchActive(true);
         } else {
           Alert.alert("No results found for " + address);
           setLoading(false);
         }
-
       })
       .catch(error => {
         console.error('SearchModal Error fetching location:', error);
@@ -47,24 +41,32 @@ const SearchModal = ({ isVisible, onClose, title }) => {
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <View style={styles.modalView}>
-        <View style={{ flexDirection: 'row' }}>
-          <TextInput
-            style={styles.input}
-            onChangeText={setLocation}
-            value={location}
-            placeholder='Search location here...'
-          />
-          <Button onPress={onSearch} title="Search" />
+      <TouchableOpacity
+        style={styles.overlay}
+        activeOpacity={1}
+        onPress={onClose}
+      >
+        <View style={styles.modalView}>
+          <View style={{ flexDirection: 'row' }}>
+            <TextInput
+              style={styles.input}
+              onChangeText={setLocation}
+              value={location}
+              placeholder='Search location here...'
+            />
+            <Button onPress={onSearch} title="Search" />
+          </View>
         </View>
-
-        <Button onPress={onClose} title="Close" />
-      </View>
+      </TouchableOpacity>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
   modalView: {
     margin: 20,
     backgroundColor: "white",

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Button } from 'react-native';
 
 import { CoordinatesProvider } from './CoordinatesContext';
 import MapViewScreen from './components/MapViewScreen'; 
-import ModalComponent from './components/ModalComponent';
 import SearchModal from './components/SearchModal';
 import AddMarkerModal from './components/AddMarkerModal';
 import ListModal from './components/ListModal';
@@ -12,7 +11,6 @@ export default function App() {
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [isAddVisible, setAddVisible] = useState(false);
   const [isListVisible, setListVisible] = useState(false);
-  const [isSettingsVisible, setSettingsVisible] = useState(false);
 
   return (
     <CoordinatesProvider>
@@ -24,7 +22,6 @@ export default function App() {
           <Button title="Search" onPress={() => setSearchVisible(true)} />
           <Button title="Add" onPress={() => setAddVisible(true)} />
           <Button title="List" onPress={() => setListVisible(true)} />
-          <Button title="Settings" onPress={() => setSettingsVisible(true)} />
         </View>
 
         <SearchModal 
@@ -42,13 +39,6 @@ export default function App() {
           onClose={() => setListVisible(false)} 
           title="List"
         />
-        <ModalComponent 
-          isVisible={isSettingsVisible} 
-          onClose={() => setSettingsVisible(false)} 
-          title="Settings"
-        >
-          <Text>Settings function</Text>
-        </ModalComponent>
       </View>
     </CoordinatesProvider>
   );
