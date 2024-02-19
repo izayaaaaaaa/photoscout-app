@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Modal, StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
 
-import { CoordinatesContext } from '../CoordinatesContext';
+import { CoordinatesContext } from '../Context';
 
 const ListModal = ({ isVisible, onClose, title }) => {
   const { defaultLocations, customLocations } = useContext(CoordinatesContext);

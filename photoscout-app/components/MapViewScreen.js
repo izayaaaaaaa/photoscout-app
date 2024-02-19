@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View } from 'react-native';
 
-import { CoordinatesContext } from '../CoordinatesContext';
+import { CoordinatesContext } from '../Context';
 import { fetchDefaultLocations } from '../api/fetchDefaultLocations';
 import { fetchCustomLocations } from '../api/fetchCustomLocations';
 

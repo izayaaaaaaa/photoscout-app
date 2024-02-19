@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Modal, StyleSheet, View, Text, Button, TextInput, TouchableOpacity } from 'react-native';
 
-import { CoordinatesContext } from '../CoordinatesContext';
+import { CoordinatesContext } from '../Context';
 import { addNewMarker } from '../api/addNewMarker';
 
 

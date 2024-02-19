@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Button } from 'react-native';
 
-import { CoordinatesProvider } from './CoordinatesContext';
+import { CoordinatesProvider } from './Context';
 import MapViewScreen from './components/MapViewScreen'; 
 import SearchModal from './components/SearchModal';
 import AddMarkerModal from './components/AddMarkerModal';

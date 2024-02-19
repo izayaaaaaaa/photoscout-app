@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Modal, StyleSheet, View, TextInput, Button, TouchableOpacity } from 'react-native';
 
-import { CoordinatesContext } from '../CoordinatesContext';
+import { CoordinatesContext } from '../Context';
 import { fetchLocation } from '../api/fetchLocation';
 
 const SearchModal = ({ isVisible, onClose, title }) => {
