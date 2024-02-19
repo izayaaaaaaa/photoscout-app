@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Button, Text } from 'react-native';
 import MapViewScreen from './components/MapViewScreen'; 
 import ModalComponent from './components/ModalComponent';
-
+import AddMarkerModal from './components/AddMarkerModal';
 
 export default function App() {
   const [isSearchVisible, setSearchVisible] = useState(false);
@@ -29,13 +29,11 @@ export default function App() {
       >
         <Text>Search location function</Text>
       </ModalComponent>
-      <ModalComponent 
+      <AddMarkerModal 
         isVisible={isAddVisible} 
         onClose={() => setAddVisible(false)} 
         title="Add"
-      >
-        <Text>Add new location marker function</Text>
-      </ModalComponent>
+      />
       <ModalComponent 
         isVisible={isListVisible} 
         onClose={() => setListVisible(false)} 
