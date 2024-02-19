@@ -5,20 +5,20 @@ export const CoordinatesContext = createContext({
   setDefaultLocations: () => {},
   location: '',
   setLocation: () => {},
-  coordinates: { latitude:  0, longitude:  0 },
-  setCoordinates: () => {},
+  searchCoordinates: { latitude:  0, longitude:  0 },
+  setSearchCoordinates: () => {},
   isSearchActive: false,
-  setSearchActive: () => {},
+  setSearchActive: () => {}
 });
 
 export const CoordinatesProvider = ({ children }) => {
   const [defaultLocations, setDefaultLocations] = useState([]);
   const [location, setLocation] = useState('');
-  const [coordinates, setCoordinates] = useState({ latitude:  0, longitude:  0 });
+  const [searchCoordinates, setSearchCoordinates] = useState({ latitude:  0, longitude:  0 });
   const [isSearchActive, setSearchActive] = useState(false);
 
   return (
-    <CoordinatesContext.Provider value={{ defaultLocations, setDefaultLocations, location, setLocation, coordinates, setCoordinates, isSearchActive, setSearchActive }}>
+    <CoordinatesContext.Provider value={{ defaultLocations, setDefaultLocations, location, setLocation, searchCoordinates, setSearchCoordinates, isSearchActive, setSearchActive }}>
       {children}
     </CoordinatesContext.Provider>
   );

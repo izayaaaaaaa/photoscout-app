@@ -7,20 +7,26 @@ import { CustomLocationsContext } from '../contexts/CustomLocationsContext';
 
 
 const AddMarkerModal = ({ isVisible, onClose, title }) => {
-  const { coordinates, location } = useContext(CoordinatesContext);
+  const { searchCoordinates, setSearchCoordinates, location } = useContext(CoordinatesContext);
   const { refreshCustomLocations } = useContext(CustomLocationsContext);
   const [markerName, setMarkerName] = useState('');
   
-  const AddMarker = () => {
-    const newMarker = {
-      name: markerName,
-      lat: coordinates.latitude,
-      lng: coordinates.longitude,
-    };
-    console.log('New marker:', newMarker);
+  const AddMarker = async () => {
+    try {
+      const newMarker = {
+        name: markerName,
+        lat: searchCoordinates.latitude,
+        lng: searchCoordinates.longitude,
+      };
 
-    addNewMarker(newMarker);
-    refreshCustomLocations();
+      console.log('New marker:', newMarker);
+
+      await addNewMarker(newMarker);
+      setSearchCoordinates({ latitude: 0, longitude: 0 })
+      refreshCustomLocations();
+    } catch (error) {
+      console.error('Error adding new marker:', error);
+    }  
   };
 
   return (

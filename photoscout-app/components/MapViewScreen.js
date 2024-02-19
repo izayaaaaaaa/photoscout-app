@@ -7,7 +7,7 @@ import { CustomLocationsContext } from '../contexts/CustomLocationsContext';
 import { fetchDefaultLocations } from '../api/fetchDefaultLocations';
 
 const MapViewScreen = () => {
-  const { defaultLocations, setDefaultLocations, coordinates, isSearchActive } = useContext(CoordinatesContext);
+  const { defaultLocations, setDefaultLocations, searchCoordinates, isSearchActive } = useContext(CoordinatesContext);
   const { customLocations, refreshCustomLocations } = useContext(CustomLocationsContext);
 
   useEffect(() => {
@@ -35,6 +35,7 @@ const MapViewScreen = () => {
           longitudeDelta: 0.14118041843175888,
         }}
       >
+
         {defaultLocations && defaultLocations.length > 0 && defaultLocations.map((marker, index) => (
           <Marker
             key={index}
@@ -43,18 +44,18 @@ const MapViewScreen = () => {
           />
         ))}
 
-        {customLocations && customLocations.length > 0 && customLocations.map((marker, index) => (
+        {customLocations && customLocations.length > 0 && (customLocations.map((marker, index) => (
           <Marker
             key={index}
             coordinate={{ latitude: marker.lat, longitude: marker.lng }}
             title={marker.name}
             pinColor="blue"
           />
-        ))}
+        )))}
 
         {isSearchActive && (
           <Marker
-            coordinate={coordinates}
+            coordinate={searchCoordinates}
             title="Searched location"
             pinColor="green"
           />

@@ -5,7 +5,7 @@ import { CoordinatesContext } from '../contexts/GlobalContext';
 import { fetchLocation } from '../api/fetchLocation';
 
 const SearchModal = ({ isVisible, onClose, title }) => {
-  const { location, setLocation, setCoordinates, setSearchActive } = useContext(CoordinatesContext);
+  const { location, setLocation, setSearchCoordinates, setSearchActive } = useContext(CoordinatesContext);
   
   const onSearch = () => {
     fetchLocation(location)
@@ -18,7 +18,7 @@ const SearchModal = ({ isVisible, onClose, title }) => {
           const latitudeFloat = parseFloat(firstResult.lat);
           const longitudeFloat = parseFloat(firstResult.lon);
 
-          setCoordinates({
+          setSearchCoordinates({
             latitude: latitudeFloat,
             longitude: longitudeFloat
           });
