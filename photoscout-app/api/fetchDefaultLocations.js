@@ -7,7 +7,7 @@ export const fetchDefaultLocations = () => {
     return response.json();
   })
   .catch(error => {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching markers:', error);
     throw error;
   });
 };

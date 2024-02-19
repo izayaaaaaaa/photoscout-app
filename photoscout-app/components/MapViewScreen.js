@@ -1,23 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View } from 'react-native';
 
+import { CoordinatesContext } from '../CoordinatesContext';
 import { fetchDefaultLocations } from '../api/fetchDefaultLocations';
 
 const MapViewScreen = () => {
+  const { coordinates, isSearchActive } = useContext(CoordinatesContext);
+  console.log('MapViewScreen Coordinates:', coordinates);
+  console.log('MapViewScreen isSearchActive:', isSearchActive)
   const [defaultLocations, setDefaultLocations] = useState([]);
 
   useEffect(() => {
     console.log('Fetching markers data...');
     fetchDefaultLocations()
       .then(data => {
-        console.log('Parsed data:', data);
+        console.log('Parsed markers:', data);
         setDefaultLocations(data.locations);
       })
       .catch(error => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching markers:', error);
       });
   }, []);
+
+  // re-render the map when the coordinates change
+  useEffect(() => {
+    console.log('Coordinates changed:', coordinates);
+  }, [coordinates]);
 
   const logCurrentLocation = (current) => {
     // console.log('Current location:', current);
@@ -25,7 +34,8 @@ const MapViewScreen = () => {
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.map}
+      <MapView 
+        style={styles.map } 
         initialRegion={{
           latitude: -33.855061436377696,
           latitudeDelta: 0.26054061815599283,
@@ -41,6 +51,14 @@ const MapViewScreen = () => {
             title={marker.name}
           />
         ))}
+
+        {isSearchActive && (
+          <Marker
+            coordinate={coordinates}
+            title="Searched location"
+            pinColor="green"
+          />
+        )}
       </MapView>
     </View>
   );
