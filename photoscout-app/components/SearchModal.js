@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, StyleSheet, View, TextInput, Button, TouchableOpacity, Keyboard } from 'react-native';
 
 import { CoordinatesContext } from '../contexts/GlobalContext';
@@ -6,40 +6,39 @@ import { fetchLocation } from '../api/fetchLocation';
 
 const SearchModal = ({ isVisible, onClose, title }) => {
   const { mapRegion, setMapRegion, location, setLocation, setSearchCoordinates, setSearchActive } = useContext(CoordinatesContext);
+  const [currentLocation, setCurrentLocation] = useState('');
   
-  const onSearch = () => {
-    fetchLocation(location)
-      .then(data => {
-        console.log('Parsed location:');
-        console.log(data);
+  const onSearch = async () => {
+    try {
+      setLocation(currentLocation);
+      const data = await fetchLocation(currentLocation);
+      if (data.length >  0) {
+        const firstResult = data[0];
+        const latitudeFloat = parseFloat(firstResult.lat);
+        const longitudeFloat = parseFloat(firstResult.lon);
 
-        if (data.length > 0) {
-          const firstResult = data[0];
-          const latitudeFloat = parseFloat(firstResult.lat);
-          const longitudeFloat = parseFloat(firstResult.lon);
+        setMapRegion({
+          ...mapRegion,
+          latitude: latitudeFloat,
+          longitude: longitudeFloat
+        });
 
-          setMapRegion({
-            ...mapRegion,
-            latitude: latitudeFloat,
-            longitude: longitudeFloat
-          });
+        setSearchCoordinates({
+          latitude: latitudeFloat,
+          longitude: longitudeFloat
+        });
 
-          setSearchCoordinates({
-            latitude: latitudeFloat,
-            longitude: longitudeFloat
-          });
-          
-          Keyboard.dismiss();
-          setSearchActive(true);
-          onClose();
-        } else {
-          Alert.alert("No results found for " + address);
-          setLoading(false);
-        }
-      })
-      .catch(error => {
-        console.error('SearchModal Error fetching location:', error);
-      });
+        Keyboard.dismiss();
+        setLocation(currentLocation);
+        setCurrentLocation('');
+        setSearchActive(true);
+        onClose();
+      } else {
+        console.error('No location found');
+      }
+    } catch (error) {
+      console.error('SearchModal Error fetching location:', error);
+    }
   };
 
   return (
@@ -49,31 +48,39 @@ const SearchModal = ({ isVisible, onClose, title }) => {
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={onClose}
-      >
+      <View style={styles.overlay} >
+        <TouchableOpacity
+          style={styles.overlayTouchable}
+          activeOpacity={1}
+          onPress={onClose}
+        />
         <View style={styles.modalView}>
           <View style={{ flexDirection: 'row' }}>
             <TextInput
               style={styles.input}
-              onChangeText={setLocation}
-              value={location}
+              onChangeText={setCurrentLocation}
+              value={currentLocation}
               placeholder='Search location here...'
             />
             <Button onPress={onSearch} title="Search" />
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
   overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0)",
+    flex:  1,
+    backgroundColor: 'rgba(0,  0,  0, 0)',
+  },
+  overlayTouchable: {
+    position: 'absolute',
+    top:  0,
+    left:  0,
+    right:  0,
+    bottom:  0,
   },
   modalView: {
     margin: 20,

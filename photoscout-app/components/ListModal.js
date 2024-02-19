@@ -32,11 +32,12 @@ const ListModal = ({ isVisible, onClose, title }) => {
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={onClose}
-      >
+      <View style={styles.overlay} >
+        <TouchableOpacity
+          style={styles.overlayTouchable}
+          activeOpacity={1}
+          onPress={onClose}
+        />
         <View style={styles.modalView}>
           <Text>Locations:</Text>
           
@@ -54,15 +55,22 @@ const ListModal = ({ isVisible, onClose, title }) => {
 
           <Button onPress={deleteAllMarkers} title="Delete All" />
         </View>
-      </TouchableOpacity>
+      </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
   overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0)",
+    flex:  1,
+    backgroundColor: 'rgba(0,  0,  0, 0)',
+  },
+  overlayTouchable: {
+    position: 'absolute',
+    top:  0,
+    left:  0,
+    right:  0,
+    bottom:  0,
   },
   modalView: {
     margin: 20,

@@ -36,11 +36,12 @@ const AddMarkerModal = ({ isVisible, onClose, title }) => {
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={onClose}
-      >
+      <View style={styles.overlay} >
+        <TouchableOpacity
+          style={styles.overlayTouchable}
+          activeOpacity={1}
+          onPress={onClose}
+        />
         <View style={styles.modalView}>
           <Text>Current Location: {location}</Text>
           <View style={{ flexDirection: 'row' }}>
@@ -53,15 +54,22 @@ const AddMarkerModal = ({ isVisible, onClose, title }) => {
             <Button onPress={AddMarker} title="Add Marker" />
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
   overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0)",
+    flex:  1,
+    backgroundColor: 'rgba(0,  0,  0, 0)',
+  },
+  overlayTouchable: {
+    position: 'absolute',
+    top:  0,
+    left:  0,
+    right:  0,
+    bottom:  0,
   },
   modalView: {
     margin: 20,
