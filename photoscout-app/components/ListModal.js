@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Modal, StyleSheet, View, Text, FlatList, TouchableOpacity, Button } from 'react-native';
 
-import { CoordinatesContext } from '../Context';
+import { CoordinatesContext } from '../contexts/GlobalContext';
 import { deleteAllCustomMarkers } from '../api/deleteAllCustomMarkers';
-import { fetchCustomLocations } from '../api/fetchCustomLocations';
+import { CustomLocationsContext } from '../contexts/CustomLocationsContext';
 
 const ListModal = ({ isVisible, onClose, title }) => {
-  const { defaultLocations, customLocations, setCustomLocations } = useContext(CoordinatesContext);
-  const [isDelete, setIsDelete] = useState(false);
+  const { defaultLocations } = useContext(CoordinatesContext);
+  const { customLocations, refreshCustomLocations } = useContext(CustomLocationsContext);
 
   const deleteAllMarkers = async () => {
     console.log('Delete all markers');
@@ -15,22 +15,15 @@ const ListModal = ({ isVisible, onClose, title }) => {
     try {
       await deleteAllCustomMarkers();
       console.log('All custom markers deleted successfully');
-      setIsDelete(true);
+      refreshCustomLocations();
     } catch (error) {
       console.error('Failed to delete all custom markers:', error);
     }
   }
 
   useEffect(() => {
-    fetchCustomLocations()
-      .then(data => {
-        console.log('Parsed custom markers:', data);
-        setCustomLocations(data);
-      })
-      .catch(error => {
-        console.error('Error fetching custom markers:', error);
-      });
-  }, [isVisible, isDelete]);
+    refreshCustomLocations();
+  }, [isVisible]);
   
   return (
     <Modal

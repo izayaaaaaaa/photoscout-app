@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, Button } from 'react-native';
 
-import { CoordinatesProvider } from './Context';
+import { CoordinatesProvider } from './contexts/GlobalContext';
 import MapViewScreen from './components/MapViewScreen'; 
 import SearchModal from './components/SearchModal';
 import AddMarkerModal from './components/AddMarkerModal';
 import ListModal from './components/ListModal';
+import { CustomLocationsProvider } from './contexts/CustomLocationsContext';
 
 export default function App() {
   const [isSearchVisible, setSearchVisible] = useState(false);
@@ -13,6 +14,7 @@ export default function App() {
   const [isListVisible, setListVisible] = useState(false);
 
   return (
+    <CustomLocationsProvider>
     <CoordinatesProvider>
       <View style={{ flex: 1 }}>
         <MapViewScreen />
@@ -41,5 +43,6 @@ export default function App() {
         />
       </View>
     </CoordinatesProvider>
+    </CustomLocationsProvider>
   );
 }

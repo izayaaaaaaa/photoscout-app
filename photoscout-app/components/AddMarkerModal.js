@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { Modal, StyleSheet, View, Text, Button, TextInput, TouchableOpacity } from 'react-native';
 
-import { CoordinatesContext } from '../Context';
+import { CoordinatesContext } from '../contexts/GlobalContext';
 import { addNewMarker } from '../api/addNewMarker';
+import { CustomLocationsContext } from '../contexts/CustomLocationsContext';
 
 
 const AddMarkerModal = ({ isVisible, onClose, title }) => {
   const { coordinates, location } = useContext(CoordinatesContext);
+  const { refreshCustomLocations } = useContext(CustomLocationsContext);
   const [markerName, setMarkerName] = useState('');
   
   const AddMarker = () => {
@@ -18,6 +20,7 @@ const AddMarkerModal = ({ isVisible, onClose, title }) => {
     console.log('New marker:', newMarker);
 
     addNewMarker(newMarker);
+    refreshCustomLocations();
   };
 
   return (

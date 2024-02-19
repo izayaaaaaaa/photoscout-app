@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Modal, StyleSheet, View, TextInput, Button, TouchableOpacity } from 'react-native';
 
-import { CoordinatesContext } from '../Context';
+import { CoordinatesContext } from '../contexts/GlobalContext';
 import { fetchLocation } from '../api/fetchLocation';
 
 const SearchModal = ({ isVisible, onClose, title }) => {
-  const { location, setLocation, coordinates, setCoordinates, isSearchActive, setSearchActive } = useContext(CoordinatesContext);
+  const { location, setLocation, setCoordinates, setSearchActive } = useContext(CoordinatesContext);
   
   const onSearch = () => {
     fetchLocation(location)

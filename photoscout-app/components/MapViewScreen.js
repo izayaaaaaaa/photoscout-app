@@ -2,32 +2,26 @@ import React, { useEffect, useContext } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View } from 'react-native';
 
-import { CoordinatesContext } from '../Context';
+import { CoordinatesContext } from '../contexts/GlobalContext';
+import { CustomLocationsContext } from '../contexts/CustomLocationsContext';
 import { fetchDefaultLocations } from '../api/fetchDefaultLocations';
-import { fetchCustomLocations } from '../api/fetchCustomLocations';
 
 const MapViewScreen = () => {
-  const { defaultLocations, setDefaultLocations, customLocations, setCustomLocations, coordinates, isSearchActive } = useContext(CoordinatesContext);
+  const { defaultLocations, setDefaultLocations, coordinates, isSearchActive } = useContext(CoordinatesContext);
+  const { customLocations, refreshCustomLocations } = useContext(CustomLocationsContext);
 
   useEffect(() => {
     console.log('Fetching markers data...');
     fetchDefaultLocations()
       .then(data => {
-        console.log('Parsed markers:', data);
+        console.log('Default markers:', data);
         setDefaultLocations(data.locations);
       })
       .catch(error => {
         console.error('Error fetching markers:', error);
       });
 
-    fetchCustomLocations()
-      .then(data => {
-        console.log('Parsed custom markers:', data);
-        setCustomLocations(data);
-      })
-      .catch(error => {
-        console.error('Error fetching custom markers:', error);
-      });
+    refreshCustomLocations();
   }, []);
 
   return (
