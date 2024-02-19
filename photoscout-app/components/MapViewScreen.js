@@ -7,7 +7,7 @@ import { CustomLocationsContext } from '../contexts/CustomLocationsContext';
 import { fetchDefaultLocations } from '../api/fetchDefaultLocations';
 
 const MapViewScreen = () => {
-  const { defaultLocations, setDefaultLocations, searchCoordinates, isSearchActive } = useContext(CoordinatesContext);
+  const { mapRegion, defaultLocations, setDefaultLocations, searchCoordinates, isSearchActive } = useContext(CoordinatesContext);
   const { customLocations, refreshCustomLocations } = useContext(CustomLocationsContext);
 
   useEffect(() => {
@@ -27,13 +27,8 @@ const MapViewScreen = () => {
   return (
     <View style={styles.container}>
       <MapView 
-        style={styles.map } 
-        initialRegion={{
-          latitude: -33.855061436377696,
-          latitudeDelta: 0.26054061815599283,
-          longitude: 151.2436400167644,
-          longitudeDelta: 0.14118041843175888,
-        }}
+        style={styles.map} 
+        region={mapRegion}
       >
 
         {defaultLocations && defaultLocations.length > 0 && defaultLocations.map((marker, index) => (

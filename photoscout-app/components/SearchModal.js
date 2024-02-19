@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { Modal, StyleSheet, View, TextInput, Button, TouchableOpacity } from 'react-native';
+import { Modal, StyleSheet, View, TextInput, Button, TouchableOpacity, Keyboard } from 'react-native';
 
 import { CoordinatesContext } from '../contexts/GlobalContext';
 import { fetchLocation } from '../api/fetchLocation';
 
 const SearchModal = ({ isVisible, onClose, title }) => {
-  const { location, setLocation, setSearchCoordinates, setSearchActive } = useContext(CoordinatesContext);
+  const { mapRegion, setMapRegion, location, setLocation, setSearchCoordinates, setSearchActive } = useContext(CoordinatesContext);
   
   const onSearch = () => {
     fetchLocation(location)
@@ -18,12 +18,20 @@ const SearchModal = ({ isVisible, onClose, title }) => {
           const latitudeFloat = parseFloat(firstResult.lat);
           const longitudeFloat = parseFloat(firstResult.lon);
 
-          setSearchCoordinates({
+          setMapRegion({
+            ...mapRegion,
             latitude: latitudeFloat,
             longitude: longitudeFloat
           });
 
+          setSearchCoordinates({
+            latitude: latitudeFloat,
+            longitude: longitudeFloat
+          });
+          
+          Keyboard.dismiss();
           setSearchActive(true);
+          onClose();
         } else {
           Alert.alert("No results found for " + address);
           setLoading(false);

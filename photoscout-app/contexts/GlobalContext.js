@@ -8,7 +8,14 @@ export const CoordinatesContext = createContext({
   searchCoordinates: { latitude:  0, longitude:  0 },
   setSearchCoordinates: () => {},
   isSearchActive: false,
-  setSearchActive: () => {}
+  setSearchActive: () => {}, 
+  mapRegion: { 
+    latitude: -33.855061436377696,
+    latitudeDelta: 0.26054061815599283,
+    longitude: 151.2436400167644,
+    longitudeDelta: 0.14118041843175888,
+  },
+  setMapRegion: () => {},
 });
 
 export const CoordinatesProvider = ({ children }) => {
@@ -16,9 +23,15 @@ export const CoordinatesProvider = ({ children }) => {
   const [location, setLocation] = useState('');
   const [searchCoordinates, setSearchCoordinates] = useState({ latitude:  0, longitude:  0 });
   const [isSearchActive, setSearchActive] = useState(false);
+  const [mapRegion, setMapRegion] = useState({ 
+    latitude: -33.855061436377696,
+    latitudeDelta: 0.26054061815599283,
+    longitude: 151.2436400167644,
+    longitudeDelta: 0.14118041843175888,
+  });
 
   return (
-    <CoordinatesContext.Provider value={{ defaultLocations, setDefaultLocations, location, setLocation, searchCoordinates, setSearchCoordinates, isSearchActive, setSearchActive }}>
+    <CoordinatesContext.Provider value={{ defaultLocations, setDefaultLocations, location, setLocation, searchCoordinates, setSearchCoordinates, isSearchActive, setSearchActive, mapRegion, setMapRegion }}>
       {children}
     </CoordinatesContext.Provider>
   );
