@@ -13,6 +13,21 @@ The project structure includes:
   - **components**: Contains reusable React components that build the UI of the application.
   - **contexts**: Includes context files for managing global and custom location contexts using React's Context API.
 
+### Requirements Accomplished
+
+- Utilize a user-friendly map SDK to display default scenic locations with pins.
+- Allow users to add custom locations directly from the map screen.
+- Provide a clear interface for users to name custom locations.
+- Distinguish default and custom locations for clarity.
+- Enable users to select a location from the list to access details.
+- When a location is selected, display a detailed screen.
+- Include an option for users to input and edit notes about the location.
+- Ensure all information entered is persisted between app launches.
+- Fetch default locations from the provided JSON file dynamically.
+- Implement internet connectivity checks to ensure smooth data retrieval.
+- Store user-added locations and notes locally for offline accessibility.
+- Use third-party libraries judiciously, focusing on enhancing specific functionalities rather than solving the entire problem.
+
 ## ToDo
 
 ### Remaining Requirements
@@ -27,3 +42,11 @@ The project structure includes:
 - A detailed view of a marker should give the option to refocus the map view to its respective marker
 - Error handling for invalid locations
 - Make the UI more aesthetically pleasing
+
+### Non-critical Bugs
+
+- Error handling for invalid locations
+- (list modal) click one item the list, mapview focuses on the coordinates of said item/marker
+- search marker should be draggable
+- details modal pops up on empty current marker bug
+- click a marker pin, more details are shown
