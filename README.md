@@ -1,6 +1,19 @@
-# Project Title
+# PhotoScout App Development Challenge
 
-## TODO
+## Overview
+
+The "photoscout-app" is a React Native mobile application that focuses on location-based services. The project is structured to facilitate the development of a cross-platform mobile app with a focus on user experience and functionality. The architecture is designed to support a modern, scalable, and maintainable application that provides a rich user experience for location-based services.
+
+The project structure includes:
+
+- **Root Directory**: Contains high-level project files such as `README.md` and `developer-challenge.pdf`.
+- **photoscout-app Directory**: The main directory where the application code resides.
+  - **api**: Contains files related to API calls for interacting with a backend service.
+  - **assets**: Holds images and other static assets used within the application.
+  - **components**: Contains reusable React components that build the UI of the application.
+  - **contexts**: Includes context files for managing global and custom location contexts using React's Context API.
+
+## ToDo
 
 ### Remaining Requirements
 
