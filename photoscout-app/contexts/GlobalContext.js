@@ -16,6 +16,8 @@ export const CoordinatesContext = createContext({
     longitudeDelta: 0.14118041843175888,
   },
   setMapRegion: () => {},
+  currentMarker: {},
+  setCurrentMarker: () => {},
 });
 
 export const CoordinatesProvider = ({ children }) => {
@@ -29,9 +31,10 @@ export const CoordinatesProvider = ({ children }) => {
     longitude: 151.2436400167644,
     longitudeDelta: 0.14118041843175888,
   });
+  const [currentMarker, setCurrentMarker] = useState({});
 
   return (
-    <CoordinatesContext.Provider value={{ defaultLocations, setDefaultLocations, location, setLocation, searchCoordinates, setSearchCoordinates, isSearchActive, setSearchActive, mapRegion, setMapRegion }}>
+    <CoordinatesContext.Provider value={{ defaultLocations, setDefaultLocations, location, setLocation, searchCoordinates, setSearchCoordinates, isSearchActive, setSearchActive, mapRegion, setMapRegion, currentMarker, setCurrentMarker }}>
       {children}
     </CoordinatesContext.Provider>
   );

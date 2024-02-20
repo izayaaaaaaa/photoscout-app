@@ -4,6 +4,7 @@ import { View, Button } from 'react-native';
 import SearchModal from './SearchModal';
 import AddMarkerModal from './AddMarkerModal';
 import ListModal from './ListModal';
+import DetailsModal from './DetailsModal';
 
 import { CoordinatesContext } from '../contexts/GlobalContext';
 
@@ -11,8 +12,8 @@ const BottomNavBar = () => {
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [isAddVisible, setAddVisible] = useState(false);
   const [isListVisible, setListVisible] = useState(false);
-  const { location } = useContext(CoordinatesContext);
-
+  const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
+  const { location, currentMarker, setCurrentMarker } = useContext(CoordinatesContext);
 
   const locationRef = useRef(location); 
   useEffect(() => {
@@ -21,12 +22,24 @@ const BottomNavBar = () => {
 
   const searchModalOnClose = () => {
     const currentLocation = locationRef.current;
+    console.log('searchModalOnClose local currentLocation: ', currentLocation);
     if(currentLocation !== '') {
       setSearchVisible(false);
       setAddVisible(true);
     } else {
       setSearchVisible(false);
     }
+  }
+
+  const listModalOnClose = () => {
+    console.log('listModalOnClose currentMarker: ', currentMarker);
+    setListVisible(false);
+    setIsDetailsModalVisible(true);
+  }
+
+  const detailsModalOnClose = () => {
+    setIsDetailsModalVisible(false);
+    setCurrentMarker({});
   }
 
   return (
@@ -48,8 +61,13 @@ const BottomNavBar = () => {
       />
       <ListModal 
         isVisible={isListVisible} 
-        onClose={() => setListVisible(false)} 
+        onClose={() => {listModalOnClose()}}
         title="List"
+      />
+      <DetailsModal
+        isVisible={isDetailsModalVisible}
+        onClose={() => {detailsModalOnClose()}}
+        item={currentMarker}
       />
     </View>
   );
