@@ -1,13 +1,20 @@
-import { TouchableOpacity, Modal, View, Text, Button, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { TouchableOpacity, Modal, View, Text, Button, StyleSheet, TextInput } from "react-native";
 import { editCustomMarker } from "../api/editCustomMarker";
 import { deleteCustomMarker } from "../api/deleteCustomMarker";
 
 const DetailsModal = ({ isVisible, item, onClose }) => {
-  console.log('DetailsModal item: ', item);
+  const [markerNotes, setMarkerNotes] = useState();
+  
+
+  useEffect(() => {
+    setMarkerNotes(item.notes);
+  }, [isVisible]);
 
   const onEdit = async () => {
     try {
-      await editCustomMarker();
+      const updatedItem = { ...item, notes: markerNotes };
+      await editCustomMarker(updatedItem);
     } catch (error) {
       console.error('Failed to edit custom marker:', error);
     }
@@ -39,6 +46,11 @@ const DetailsModal = ({ isVisible, item, onClose }) => {
           <Text>Coordinates:</Text>
           <Text>Latitude: {item.lat}</Text>
           <Text>Longitude: {item.lng}</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setMarkerNotes(text)}
+            value={markerNotes}
+          />
           <View style={{ flexDirection: 'row' }}>
             <Button title="Edit" onPress={onEdit} />
             <Button title="Delete" onPress={onDelete} />
@@ -75,6 +87,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
 

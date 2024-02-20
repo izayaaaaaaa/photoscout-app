@@ -9,12 +9,13 @@ import { CustomLocationsContext } from '../contexts/CustomLocationsContext';
 const AddMarkerModal = ({ isVisible, onClose, title }) => {
   const { searchCoordinates, setSearchCoordinates, location } = useContext(CoordinatesContext);
   const { refreshCustomLocations } = useContext(CustomLocationsContext);
-  const [markerName, setMarkerName] = useState('');
+  const [markerNotes, setMarkerNotes] = useState('');
   
   const AddMarker = async () => {
     try {
       const newMarker = {
-        name: markerName,
+        name: location,
+        notes: markerNotes,
         lat: searchCoordinates.latitude,
         lng: searchCoordinates.longitude,
       };
@@ -44,12 +45,14 @@ const AddMarkerModal = ({ isVisible, onClose, title }) => {
         <View style={styles.modalView}>
           <Text>Current Location: {location}</Text>
           <View style={{ flexDirection: 'row' }}>
-            <TextInput
-              style={styles.input}
-              onChangeText={setMarkerName}
-              value={markerName}
-              placeholder='Set marker name here...'
-            />
+            <View>
+              <TextInput
+                style={styles.input}
+                onChangeText={setMarkerNotes}
+                value={markerNotes}
+                placeholder='Set marker notes here...'
+              />
+            </View>
             <Button onPress={AddMarker} title="Add Marker" />
           </View>
         </View>

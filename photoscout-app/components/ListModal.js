@@ -23,7 +23,6 @@ const ListModal = ({ isVisible, onClose, title }) => {
   }, [isVisible]);
 
   const handleItemPress = (item) => {
-    console.log('handleItemPress Item pressed: ', item);
     setCurrentMarker(item);
     onClose();
   };
