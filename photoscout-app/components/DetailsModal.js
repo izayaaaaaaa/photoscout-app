@@ -15,6 +15,7 @@ const DetailsModal = ({ isVisible, item, onClose }) => {
     try {
       const updatedItem = { ...item, notes: markerNotes };
       await editCustomMarker(updatedItem);
+      onClose();
     } catch (error) {
       console.error('Failed to edit custom marker:', error);
     }
@@ -22,7 +23,9 @@ const DetailsModal = ({ isVisible, item, onClose }) => {
 
   const onDelete = async () => {
     try {
-      await deleteCustomMarker();
+      const deletedItem = { ...item };
+      await deleteCustomMarker(deletedItem);
+      onClose();
     } catch (error) {
       console.error('Failed to delete custom marker:', error);
     }
