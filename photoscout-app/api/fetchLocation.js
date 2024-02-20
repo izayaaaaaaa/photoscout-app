@@ -1,4 +1,10 @@
+import { checkInternetConnectivity } from "./checkInternetConnectivity";
+
 export const fetchLocation = async (currentLocation) => {
+  const isConnected = await checkInternetConnectivity();
+  if (!isConnected) {
+    throw new Error('No internet connection');
+  }
   // const geocodeAPI = process.env.GEOCODE_API_KEY; // env var not working?
   const geocodeAPI = '65d3751fa5a49542526138pvqc999ce'
   try {
