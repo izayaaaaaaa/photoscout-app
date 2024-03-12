@@ -2,29 +2,49 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  install_and_test:
+  build_and_push:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Install server dependencies
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and run PostgreSQL
+        run: |
+          docker-compose up -d postgres
+
+      - name: Build and run backend server
         run: |
           cd server
           npm install
+          npm run build
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
-      - name: Install client dependencies
+      - name: Build and run frontend server
         run: |
           cd client
           npm install
+          npm run build
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+
+  run_e2e_tests:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Run e2e tests
         run: |
           cd server
           npm run test:e2e
-        continue-on-error: false
