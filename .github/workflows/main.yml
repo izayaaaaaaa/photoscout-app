@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  install_and_start:
+  install_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,17 +18,13 @@ jobs:
           cd server
           npm install
 
-      - name: Start server
-        run: |
-          cd server
-          npm start &
-
       - name: Install client dependencies
         run: |
           cd client
           npm install
 
-      - name: Start client
+      - name: Run e2e tests
         run: |
-          cd client
-          npm start &
+          cd server
+          npm run test:e2e
+        continue-on-error: false
