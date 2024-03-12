@@ -19,7 +19,6 @@ jobs:
 
       - name: Build PostgreSQL
         run: |
-          cd dockerfiles/postgres
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/postgres .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/postgres:latest
 
@@ -28,9 +27,6 @@ jobs:
           cd server
           npm install
           npm run build
-      - name: Build and push backend image
-        run: |
-          cd dockerfiles/server
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
