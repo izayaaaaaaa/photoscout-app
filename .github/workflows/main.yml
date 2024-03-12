@@ -17,19 +17,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and run PostgreSQL
+      - name: Build PostgreSQL
         run: |
           cd dockerfiles/postgres
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/postgres .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/postgres:latest
 
-      - name: Build and run backend server
+      - name: Build backend server
         run: |
           cd server
           npm install
           npm run build
-          cd ../dockerfiles/backend
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend ../dockerfiles/backend
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
   run_e2e_tests:
