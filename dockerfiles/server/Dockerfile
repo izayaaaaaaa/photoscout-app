@@ -5,7 +5,7 @@ FROM node:16.13
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json ../../server
+COPY ./server/package*.json ./
 
 # Install any needed packages specified in package.json
 RUN npm install
