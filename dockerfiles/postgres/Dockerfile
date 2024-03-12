@@ -5,4 +5,4 @@ FROM postgres:latest
 ENV POSTGRES_PASSWORD=123
 
 # Copy the SQL file into the Docker image
-COPY init.sql /docker-entrypoint-initdb.d/
+# COPY init.sql /docker-entrypoint-initdb.d/
