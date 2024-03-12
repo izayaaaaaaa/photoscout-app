@@ -29,14 +29,6 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
-      - name: Build and run frontend server
-        run: |
-          cd client
-          npm install
-          npm run build
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
-
   run_e2e_tests:
     needs: build_and_push
     runs-on: ubuntu-latest
