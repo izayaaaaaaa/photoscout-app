@@ -1,0 +1,35 @@
+stages:
+  - install
+  - start
+
+install_server:
+  stage: install
+  script:
+    - cd server
+    - npm install
+  only:
+    - main
+
+install_client:
+  stage: install
+  script:
+    - cd client
+    - npm install
+  only:
+    - main
+
+start_server:
+  stage: start
+  script:
+    - cd server
+    - npm start
+  only:
+    - main
+
+start_client:
+  stage: start
+  script:
+    - cd client
+    - npm start
+  only:
+    - main
