@@ -28,7 +28,8 @@ jobs:
           cd server
           npm install
           npm run build
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend ../dockerfiles/backend
+          cd ../..
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend dockerfiles/server
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
   run_e2e_tests:
