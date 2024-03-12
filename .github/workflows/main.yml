@@ -54,5 +54,5 @@ jobs:
 
       - name: Run E2E tests
         run: |
-          # Your command to run E2E tests
+          cd server
           npm run test:e2e:cicd
