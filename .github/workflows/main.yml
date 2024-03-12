@@ -19,13 +19,16 @@ jobs:
 
       - name: Build and run PostgreSQL
         run: |
-          docker-compose up -d postgres
+          cd dockerfiles/postgres
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/postgres .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/postgres:latest
 
       - name: Build and run backend server
         run: |
           cd server
           npm install
           npm run build
+          cd ../dockerfiles/backend
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
@@ -36,7 +39,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Pull Docker image
+        run: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/postgres:latest
+
       - name: Run e2e tests
         run: |
           cd server
-          npm run test:e2e
+          npm run test:e2e:cicd
