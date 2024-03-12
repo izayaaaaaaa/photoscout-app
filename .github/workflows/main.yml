@@ -23,13 +23,15 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/postgres .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/postgres:latest
 
-      - name: Build backend server
+      - name: Build backend
         run: |
           cd server
           npm install
           npm run build
-          cd ../..
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend ./dockerfiles/server
+      - name: Build and push backend image
+        run: |
+          cd dockerfiles/backend
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
   run_e2e_tests:
