@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3333
 
 # Define the command to run your app using CMD which defines your runtime
-CMD [ "npm", "run", "test:e2e:cicd" ]
+CMD [ "npm", "start" ]

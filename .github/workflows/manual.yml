@@ -1,8 +1,7 @@
 name: CI/CD Pipeline
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build_and_push:
@@ -46,14 +45,3 @@ jobs:
         run: |
           docker run -d -p 5432:5432 ${{ secrets.DOCKERHUB_USERNAME }}/postgres:latest
           docker run -d -p 3333:3333 ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
-
-      - name: Wait for backend to be ready
-        run: |
-          # Replace this with a command that waits for your backend to be ready
-          # For example, using curl to check a health check endpoint
-          sleep 15 # Wait for 15 seconds to give the backend time to start
-
-      - name: Run E2E tests
-        run: |
-          # Your command to run E2E tests
-          npm run test:e2e:cicd
