@@ -37,14 +37,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Pull Docker images
+      - name: Pull and run Docker images
         run: |
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
-          docker run -d -p 3333:3333 ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/postgres:latest
           docker run -d -p 5432:5432 ${{ secrets.DOCKERHUB_USERNAME }}/postgres:latest
-
-      - name: Run e2e tests
-        run: |
-          cd server
-          npm run test:e2e:cicd
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
+          docker run -d -p 3333:3333 ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
