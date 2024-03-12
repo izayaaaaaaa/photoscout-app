@@ -30,7 +30,7 @@ jobs:
           npm run build
       - name: Build and push backend image
         run: |
-          cd dockerfiles/backend
+          cd dockerfiles/server
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
