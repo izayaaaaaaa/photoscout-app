@@ -36,6 +36,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Setup Node.js environment
+            uses: actions/setup-node@v2
+            with:
+              node-version: '16'
+
       - name: Pull Docker images
         run: |
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/postgres:latest
@@ -51,11 +56,6 @@ jobs:
           # Replace this with a command that waits for your backend to be ready
           # For example, using curl to check a health check endpoint
           sleep 15 # Wait for 15 seconds to give the backend time to start
-
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2
-        with:
-          node-version: "16"
 
       - name: Run E2E tests
         run: |
