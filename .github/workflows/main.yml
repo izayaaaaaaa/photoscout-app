@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline for Node.js and PostgreSQL
 
 on:
   workflow_dispatch:
